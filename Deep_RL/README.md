@@ -11,7 +11,7 @@ Using tabular methods to store the value functions is not practical for these pr
 **Solution of Large MDPs** \
 Our goal is to find a good approximate solution using limited computational resources.
 * Estimate value function with function approximation (function approximation takes examples from a desired function (e.g., a value function) and attempts to generalize from them to construct an approximation of the entire function). \
-$$\hat{V}(x, \bold{w}) \simeq V_{\pi}(x) \quad or \quad \hat{q}(x, u, \bold{w}) \simeq q_{\pi}(x, u)$$
+$$\hat{V}(x, **w**) \simeq V_{\pi}(x) \quad or \quad \hat{q}(x, u, **w**) \simeq q_{\pi}(x, u)$$
 * Generalization from visited states to unseen states.
 * Update parameter $w$ using MC and TD learning.
 
@@ -30,21 +30,21 @@ Up to now, we have never specified an explicit objective for prediction/estimati
 But, with function approximation, an update at one state affects many others, and it is not possible to get the values of all states exactly correct and so, making one state’s estimate more accurate invariably means making
 other's less accurate. 
 
-Mean Squared Value Error: It is the square of the difference between approximate value $\hat{V}(x, \bold{w})$ and the true value $V_{\pi}(x)$, we have obtain a natural objective function, the mean square value error, 
-$ \sum_{x \in \chi}[V_{\pi}(x) - \hat{V}(x, \bold{w})]^2$
+Mean Squared Value Error: It is the square of the difference between approximate value $\hat{V}(x, **w**)$ and the true value $V_{\pi}(x)$, we have obtain a natural objective function, the mean square value error, 
+$ \sum_{x \in \chi}[V_{\pi}(x) - \hat{V}(x, **w**)]^2$
 
-**Goal**: Find the parameter vector $\bold{w}$ to minimize the mean square value error:
-$$J(\bold{w}) = \mathbb{E}_{\pi}[V_{\pi}(x) - \hat{V}(x, \bold{w})]^2$$
+**Goal**: Find the parameter vector **w** to minimize the mean square value error:
+$J(**w**) = \mathbb{E}_{\pi}[V_{\pi}(x) - \hat{V}(x, **w**)]^2$
 
-To, adjust the parameter $w$ in the direction of -ve gradient of $J(\bold{w})$,
-$$\nabla{w} \propto \nabla{J(\bold{w})}$$
-$$\nabla{w} = -\frac{\alpha}{2} \nabla{J(\bold{w})}$$
-$$\nabla{w} = -\frac{\alpha}{2} \frac{\partial {J(\bold{w})}}{\partial \bold{w}}$$
-$$\nabla{w} = -\frac{\alpha}{2} \frac{\partial}{\partial \bold{w}} \mathbb{E}_{\pi}[V_{\pi}(x) - \hat{V}(x, \bold{w})]^2$$
-$$w \leftarrow w+ \alpha \mathbb{E}_{\pi}[V_{\pi}(x_k) - \hat{V}(x_k, \bold{w})]*\nabla{\hat{V}(x_k, \bold{w})}$$
+To, adjust the parameter $w$ in the direction of -ve gradient of $J(**w**)$,
+$$\nabla{w} \propto \nabla{J(**w**)}$$
+$$\nabla{w} = -\frac{\alpha}{2} \nabla{J(**w**)}$$
+$$\nabla{w} = -\frac{\alpha}{2} \frac{\partial {J(**w**)}}{\partial **w**}$$
+$$\nabla{w} = -\frac{\alpha}{2} \frac{\partial}{\partial **w**} \mathbb{E}_{\pi}[V_{\pi}(x) - \hat{V}(x, **w**)]^2$$
+$$w \leftarrow w+ \alpha \mathbb{E}_{\pi}[V_{\pi}(x_k) - \hat{V}(x_k, **w**)]*\nabla{\hat{V}(x_k, **w**)}$$
 
 for, monte-carlo based method,
-$$w \leftarrow w+ \alpha \mathbb{E}_{\pi}[G_k - \hat{V}(x_k, \bold{w})]*\nabla{\hat{V}(x_k, \bold{w})}$$
+$$w \leftarrow w+ \alpha \mathbb{E}_{\pi}[G_k - \hat{V}(x_k, **w**)]*\nabla{\hat{V}(x_k, **w**)}$$
 
 for, temporal-difference based method,
-$$w \leftarrow w+ \alpha \mathbb{E}_{\pi}[r_{k+1} + \gamma*\hat{V}(x_{k+1},\bold{w}) - \hat{V}(x_k, \bold{w})]*\nabla{\hat{V}(x_k, \bold{w})}$$
+$$w \leftarrow w+ \alpha \mathbb{E}_{\pi}[r_{k+1} + \gamma*\hat{V}(x_{k+1},**w**) - \hat{V}(x_k, **w**)]*\nabla{\hat{V}(x_k, **w**)}$$
